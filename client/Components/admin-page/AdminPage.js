@@ -8,6 +8,7 @@ import CreateFeedbackForm from "./CreateFeedbackForm";
 import { useState } from "react";
 import RegisterAdmins from "./RegisterAdmin";
 import AdminContactRequests from "./ProfessorRequests";
+import Jadu from "./Jadu";
 
 const tabs = [
   {
@@ -45,6 +46,11 @@ const tabs = [
     label: "Check Professor Queries",
     component: <AdminContactRequests />,
   },
+  {
+    id: "Jadu",
+    label: "Process Feedbacks",
+    component: <Jadu />,
+  },
 ];
 
 const AdminPage = () => {
@@ -57,7 +63,7 @@ const AdminPage = () => {
   return (
     <div className="">
       <Header />
-      <div className="flex px-4 py-1.5 flex-col md:flex-row h-[calc(100vh-13vh)] ">
+      <div className="flex px-4 py-1.5 flex-col md:flex-row h-[calc(100vh-5rem)] ">
         <nav className="bg-gray-800 text-white rounded-lg shadow-md my-3 mx-4 md:overflow-y-auto">
           <ul className="flex flex-col space-y-2 p-4">
             {tabs.map((tab) => (

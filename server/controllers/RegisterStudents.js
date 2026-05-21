@@ -1,6 +1,7 @@
 const UserModel = require("../models/studentsScheema");
 const SubjectsModel = require("../models/subjectsScheema");
 const fs = require("fs");
+const bcrypt = require("bcrypt");
 
 const RegisterUsers = async (req, res) => {
   // Function to parse csv file
@@ -17,17 +18,17 @@ const RegisterUsers = async (req, res) => {
   }
 
   // Function to convert CSV data to objects
-  function convertCSVToObjects(csvData) {
-    return csvData.map((data) => ({
+  async function convertCSVToObjects(csvData) {
+    return await Promise.all(csvData.map(async (data) => ({
       username: data.username,
-      password: data.password,
+      password: await bcrypt.hash(data.password, 10),
       name: data.name,
       course: data.course,
       address: data.address,
       type: data.type,
       semester: data.semester,
       section: data.classSection,
-    }));
+    })));
   }
   try {
     if (!req.file) {
@@ -38,7 +39,7 @@ const RegisterUsers = async (req, res) => {
     const csvData = await parseCSV(req.file.path);
 
     // Convert CSV data to an array of objects suitable for MongoDB
-    const formattedData = convertCSVToObjects(csvData);
+    const formattedData = await convertCSVToObjects(csvData);
 
     // Insert data into MongoDB using the UserModel
     await UserModel.insertMany(formattedData);
@@ -74,7 +75,9 @@ const RegisterUsers = async (req, res) => {
     res.status(500).json({ message: "Error uploading CSV data" });
   } finally {
     // Clean up the uploaded file (optional)
-    fs.unlinkSync(req.file.path);
+    if (req && req.file && req.file.path) {
+      fs.unlinkSync(req.file.path);
+    }
   }
 };
 

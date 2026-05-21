@@ -1,55 +1,9 @@
-.slider-container {
-  position: relative;
-  overflow: hidden;
+.slick-prev:before {
+  color: gray;
+  font-size: 1.5rem;
 }
 
-.slider-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transition: opacity 0.5s ease;
-}
-
-.slide {
-  opacity: 0;
-}
-
-.slide h2 {
-  color: #333;
-}
-
-.slide p {
-  margin-bottom: 10px;
-}
-
-.slide ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.slide ul li {
-  background: #eee;
-  margin: 5px 0;
-  padding: 10px;
-}
-
-.prev-btn,
-.next-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.prev-btn {
-  left: 20px;
-}
-
-.next-btn {
-  right: 20px;
+.slick-next:before {
+  color: gray;
+  font-size: 1.5rem;
 }

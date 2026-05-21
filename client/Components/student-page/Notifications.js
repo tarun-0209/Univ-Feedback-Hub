@@ -10,7 +10,9 @@ const StudentNotifications = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/getReply/${_id}`);
+      const response = await fetch(`${BASE_URL}/api/v1/getReply/${_id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch notifications");
       }
@@ -26,12 +28,12 @@ const StudentNotifications = () => {
   }, [_id]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="">
       <Header />
       <div className="flex md:p-3 bg-cyan-50 p-1">
         <SideBar></SideBar>
-        <div className="w-5/6 px-5 py-2 h-[calc(100vh-15vh)] overflow-y-auto">
-          <h3 className="px-5 py-2  text-2xl rounded-md bg-purple-400 font-bold text-white">
+        <div className="w-5/6 h-[calc(100vh-6rem)] overflow-y-auto">
+          <h3 className="px-5 py-2 text-2xl rounded-md bg-purple-400 font-bold text-white mx-3 my-1">
             Notifications
           </h3>
           <ul className="list-none p-2.5">

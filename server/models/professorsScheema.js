@@ -12,6 +12,8 @@ const professorsSchema = new mongoose.Schema({
       section: { type: String, required: true },
     },
   ],
+  Department: { type: String, required: true },
+  Designation: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Professors", professorsSchema);

@@ -8,7 +8,9 @@ const AdminContactRequests = () => {
   // Function to fetch admin contact requests from the backend
   const fetchAdminContactRequests = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/professorQueries`);
+      const response = await fetch(`${BASE_URL}/api/v1/professorQueries`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch admin contact requests");
       }
@@ -30,6 +32,7 @@ const AdminContactRequests = () => {
         `${BASE_URL}/api/v1/professorQueries/${requestId}/${status}`,
         {
           method: "POST",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         }
       );
       if (!response.ok) {
@@ -45,7 +48,7 @@ const AdminContactRequests = () => {
   };
 
   return (
-    <div className="bg-gray-100 p-4 rounded-lg shadow-md h-[calc(100vh-35vh)] overflow-y-auto">
+    <div className="p-4 h-[calc(100vh-35vh)] overflow-y-auto">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">
         Check Professor Queries related to Feedback Form
       </h2>
@@ -53,7 +56,7 @@ const AdminContactRequests = () => {
         {adminContactRequests.map((request) => (
           <li
             key={request._id}
-            className="py-4 px-2 flex flex-col space-y-2 bg-white rounded-md shadow-md"
+            className="py-4 px-2 flex flex-col space-y-2 bg-white rounded-md shadow-md mb-2"
           >
             <div className="flex justify-between items-center bg-gray-200 p-2 rounded-md">
               <p className="text-gray-700 font-medium">

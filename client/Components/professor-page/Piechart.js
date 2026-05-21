@@ -13,7 +13,7 @@ const PieChart = ({ data }) => {
       chartInstance.current.destroy();
     }
 
-    // Create new chart instance
+    // Create new chart instance with fixed size
     chartInstance.current = new Chart(ctx, {
       type: "pie",
       data: {
@@ -26,6 +26,10 @@ const PieChart = ({ data }) => {
           },
         ],
       },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // Prevent Chart.js from overriding height
+      },
     });
 
     // Cleanup function to destroy the chart instance
@@ -36,7 +40,11 @@ const PieChart = ({ data }) => {
     };
   }, [data]);
 
-  return <canvas ref={chartRef} />;
+  return (
+    <div className=" h-96">
+      <canvas ref={chartRef} className="" />
+    </div>
+  );
 };
 
 export default PieChart;

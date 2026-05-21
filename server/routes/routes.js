@@ -29,31 +29,52 @@ const {
   handleStatusRequest,
 } = require("../controllers/handleProfessorRequest");
 const { createContact } = require("../controllers/contact");
+const { processFeedbacksAI } = require("../controllers/processFeedbacks");
+const {
+  getProcessedFeedbacks,
+} = require("../controllers/getProcessedFeedbacks");
+const { getDepartmentAverages } = require("../controllers/getDepartmentAvgs");
+const { peerComparision } = require("../controllers/peerComparision");
+const {
+  getActionableInsights,
+} = require("../controllers/getActionableInsights");
+
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
-Router.post("/registerUser", upload.single("file"), RegisterUsers);
+const requireAuth = require("../middleware/requireAuth");
+
+Router.post("/registerUser", requireAuth, upload.single("file"), RegisterUsers);
 Router.post("/login", UserLogin);
-Router.post("/addSubjects", upload.single("file"), addSubjects);
-Router.post("/registerProfessors", upload.single("file"), RegisterProfessors);
-Router.post("/assignSubjects", upload.single("file"), assignSubjects);
-Router.get("/getSubjects/:studentId", getSubjects);
-Router.get("/getProfessors/:studentId", getProfessors);
-Router.post("/createFeedbackForm", saveFeedbackForm);
-Router.get("/feedback/:feedbackFormName", getFeedbackFormByName);
-Router.post("/submitFeedback", submitFeedback);
-Router.get("/getfeedbackResponses/:feedbackFormName", getFeedbackData);
-Router.post("/registerAdmins", upload.single("file"), RegisterAdmins);
-Router.get("/checkSubmissionStatus", checkSubmissionStatus);
-Router.post("/submitReply", saveReplyData);
-Router.get("/getReply/:_id", getReplyData);
-Router.post("/contactAdmin", contactAdmin);
-Router.get("/professorQueries", showProfessorQuery);
-Router.get("/professorQueries/:_id", showProfNotifications);
-Router.get("/getStudentDetails/:studentId", getStudentDetails);
-Router.post("/professorQueries/:requestId/:status", handleStatusRequest);
-Router.post("/contactUs", createContact);
+Router.post("/addSubjects", requireAuth, upload.single("file"), addSubjects);
+Router.post("/registerProfessors", requireAuth, upload.single("file"), RegisterProfessors);
+Router.post("/assignSubjects", requireAuth, upload.single("file"), assignSubjects);
+Router.get("/getSubjects/:studentId", requireAuth, getSubjects);
+Router.get("/getProfessors/:studentId", requireAuth, getProfessors);
+Router.post("/createFeedbackForm", requireAuth, saveFeedbackForm);
+Router.get("/feedback/:feedbackFormName", requireAuth, getFeedbackFormByName);
+Router.post("/submitFeedback", requireAuth, submitFeedback);
+Router.get("/getfeedbackResponses/:feedbackFormName", requireAuth, getFeedbackData);
+Router.post("/registerAdmins", upload.single("file"), RegisterAdmins); // Left public for initial setup
+Router.get("/checkSubmissionStatus", requireAuth, checkSubmissionStatus);
+Router.post("/submitReply", requireAuth, saveReplyData);
+Router.get("/getReply/:_id", requireAuth, getReplyData);
+Router.post("/contactAdmin", requireAuth, contactAdmin);
+Router.get("/professorQueries", requireAuth, showProfessorQuery);
+Router.get("/professorQueries/:_id", requireAuth, showProfNotifications);
+Router.get("/getStudentDetails/:studentId", requireAuth, getStudentDetails);
+Router.post("/professorQueries/:requestId/:status", requireAuth, handleStatusRequest);
+Router.post("/contactUs", requireAuth, createContact);
+Router.get("/processFeedbacks", requireAuth, processFeedbacksAI);
+Router.get(
+  "/getProcessedFeedbacks/:professorName/:feedbackFormName",
+  requireAuth,
+  getProcessedFeedbacks
+);
+Router.get("/department-averages/:department", requireAuth, getDepartmentAverages);
+Router.get("/peer-rankings/:department", requireAuth, peerComparision);
+Router.post("/generate-insights", requireAuth, getActionableInsights);
 
 module.exports = Router;

@@ -46,7 +46,11 @@ const BarChart = ({ data, labels }) => {
     };
   }, [data, labels]);
 
-  return <canvas ref={chartRef} />;
+  return (
+    <div className=" h-96">
+      <canvas ref={chartRef} className="" />
+    </div>
+  );
 };
 
 export default BarChart;

@@ -1,0 +1,6 @@
+username,password,name,address,type
+admin1,password1,Tarun One,123 Admin St,admin
+admin2,password2,Tarun Two,456 Admin Ave,admin
+admin3,password3,Admin Three,789 Admin Dr,admin
+admin4,password4,Admin Four,321 Admin Rd,admin
+admin5,password5,Admin Five,654 Admin St,admin

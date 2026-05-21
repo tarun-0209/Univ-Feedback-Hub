@@ -15,6 +15,10 @@ const CreateFeedbackForm = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [deadline, setDeadline] = useState("");
   const [startTime, setStartTime] = useState("");
+  const [professorUsername, setUsername] = useState("");
+  const handleusernameChange = (event) => {
+    setUsername(event.target.value);
+  };
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -155,12 +159,14 @@ const CreateFeedbackForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           name: name,
           questions,
           deadline: deadline,
           startTime: startTime,
+          professorUsername: professorUsername,
         }),
       });
 
@@ -173,13 +179,17 @@ const CreateFeedbackForm = () => {
 
       // Clearing the form state after successful submission
       setName("");
-      setQuestions([]);
+      setDeadline("");
+      setStartTime("");
+      setUsername("");
       setNewQuestion({ description: "", type: "", options: [] });
       setOpenModal(false);
       setError("");
 
       // Displaying success message
-      setSuccessMessage("Feedback form created successfully!");
+      setSuccessMessage(
+        "Feedback form created successfully! Please go to the Top 🔝"
+      );
 
       // Clear success message after 2 seconds
       setTimeout(() => {
@@ -191,12 +201,7 @@ const CreateFeedbackForm = () => {
     }
   };
   return (
-    <div className="border mt-6 rounded-md bg-indigo-50 p-2.5 h-[calc(100vh-45vh)] overflow-y-auto md:px-10 lg:h-[calc(100vh-40vh)]">
-      {successMessage && (
-        <div className="bg-green-200 text-green-800 py-2 px-4 mb-4 rounded">
-          {successMessage}
-        </div>
-      )}
+    <div className="border mt-6 rounded-md bg-indigo-50 p-2.5 h-[calc(100vh-8rem)] overflow-y-auto md:px-10 lg:h-[calc(100vh-35vh)]">
       <div className="flex flex-col">
         <div className=" flex items-center gap-2 my-2">
           <label htmlFor="name" className="text-lg font-semibold">
@@ -210,6 +215,26 @@ const CreateFeedbackForm = () => {
             placeholder="SUBJECTCODE_SECTION"
             className="border-2 rounded-md px-4 py-2"
           />
+
+          <label htmlFor="name" className="text-lg font-semibold">
+            Professor Username:
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={professorUsername}
+            onChange={handleusernameChange}
+            placeholder=""
+            className="border-2 rounded-md px-4 py-2"
+          />
+          {questions.length > 0 && (
+            <button
+              onClick={() => setQuestions([])}
+              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-md mt-4 ml-4"
+            >
+              Reset All Questions
+            </button>
+          )}
         </div>
         <div>
           <div className="flex items-center gap-2">
@@ -322,12 +347,19 @@ const CreateFeedbackForm = () => {
 
       <br />
       <br />
-      <button
-        onClick={handleFormSubmit}
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md mt-4"
-      >
-        Submit Feedback Form
-      </button>
+      <div>
+        <button
+          onClick={handleFormSubmit}
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md mt-4"
+        >
+          Create Feedback Form
+        </button>
+        {successMessage && (
+          <div className="bg-green-200 text-green-800 py-2 px-4 mb-4 rounded">
+            {successMessage}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

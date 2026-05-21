@@ -5,6 +5,9 @@ const Subject = require("../models/subjectsScheema");
 
 async function assignSubjects(req, res) {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file selected" });
+    }
     const filePath = req.file.path;
     const stream = fs.createReadStream(filePath);
 
@@ -50,10 +53,17 @@ async function assignSubjects(req, res) {
       .on("end", () => {
         console.log("CSV file processed successfully.");
         res.status(200).json({ message: "Subjects assigned successfully" });
+        if (req.file && req.file.path) fs.unlinkSync(req.file.path);
+      })
+      .on("error", (error) => {
+        console.error("Stream error processing CSV file:", error);
+        res.status(500).json({ error: "Error reading CSV file" });
+        if (req.file && req.file.path) fs.unlinkSync(req.file.path);
       });
   } catch (error) {
     console.error("Error processing CSV file:", error);
     res.status(500).json({ error: "Internal server error" });
+    if (req.file && req.file.path) fs.unlinkSync(req.file.path);
   }
 }
 

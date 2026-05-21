@@ -24,7 +24,8 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
       if (_id) {
         try {
           const response = await fetch(
-            `${BASE_URL}/api/v1/checkSubmissionStatus?studentId=${_id}&formId=${feedbackFormData?.feedbackForm?.name}`
+            `${BASE_URL}/api/v1/checkSubmissionStatus?studentId=${_id}&formId=${feedbackFormData?.feedbackForm?.name}`,
+            { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
           );
           const result = await response.json();
           setIsSubmitted(result.isSubmitted);
@@ -75,6 +76,7 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(feedbackData),
       });
@@ -203,7 +205,7 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
   }
 
   return (
-    <div className="px-5 py-2 w-5/6 md:w-5/6 h-[calc(100vh-15vh)] overflow-y-auto bg-cyan-50">
+    <div className="px-5 py-2 w-5/6 md:w-5/6 h-[calc(100vh-6rem)] overflow-y-auto bg-cyan-50">
       <h3 className="px-5 py-2 text-xl md:text-2xl rounded-md bg-purple-400 font-bold text-white">
         Feedback Form
       </h3>
@@ -213,7 +215,7 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
             {formObject.questions.map((question, index) => (
               <div
                 key={index}
-                className="bg-white p-4 rounded-lg shadow-md my-4 border border-teal-400"
+                className="bg-white p-4 rounded-md shadow-md my-4 border border-teal-400"
               >
                 <p className="text-lg font-semibold mb-2">
                   {question.description}
@@ -225,6 +227,7 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
                       name={`question-${index}-text`}
                       className="w-full border rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
                       placeholder="Enter your answer"
+                      required
                     />
                   )}
                   {question.type === "yesNo" && (
@@ -234,6 +237,7 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
                         name={`question-${index}-yesNo`}
                         value="Yes"
                         className="mr-2"
+                        required
                       />
                       <label className="mr-4">Yes</label>
                       <input
@@ -241,6 +245,7 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
                         name={`question-${index}-yesNo`}
                         value="No"
                         className="mr-2"
+                        required
                       />
                       <label>No</label>
                     </div>
@@ -255,6 +260,7 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
                               name={`question-${index}-rating`}
                               value={value}
                               className="mr-1"
+                              required
                             />
                             <label className="mr-2">{value}</label>
                           </div>
@@ -271,6 +277,7 @@ const FeedbackFormBody = ({ feedbackFormData }) => {
                             name={`question-${index}-multiple`}
                             value={option}
                             className="mr-2"
+                            required
                           />
                           <label className="mr-4">{option}</label>
                         </div>

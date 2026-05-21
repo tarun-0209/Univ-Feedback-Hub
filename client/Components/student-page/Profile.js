@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "./SideBar";
 import Header from "./Header";
-
+import { Link } from "react-router-dom";
 const Profile = () => {
   const userDataString = localStorage.getItem("userData");
   const userData = userDataString ? JSON.parse(userDataString) : null;
@@ -11,6 +11,7 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState(
     localStorage.getItem("profileImage") || null
   );
+
   require("dotenv").config();
   const BASE_URL = process.env.BASE_URL;
 
@@ -21,7 +22,9 @@ const Profile = () => {
   const fetchSubjects = async (userId) => {
     try {
       // Make a GET request to your backend API endpoint to fetch subjects
-      const response = await fetch(`${BASE_URL}/api/v1/getSubjects/${userId}`);
+      const response = await fetch(`${BASE_URL}/api/v1/getSubjects/${userId}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch subjects");
       }
@@ -54,9 +57,9 @@ const Profile = () => {
   return (
     <div className="">
       <Header />
-      <div className="flex md:p-3 bg-cyan-50 p-1">
+      <div className="flex md:p-3 p-1">
         <SideBar />
-        <div className=" h-[calc(100vh-15vh)] overflow-y-auto shadow-lg rounded-lg w-5/6 px-5 py-2">
+        <div className=" h-[calc(100vh-6rem)] overflow-y-auto rounded-lg w-5/6 px-5 py-2">
           <div
             className={`px-6 py-8 flex items-center justify-between ${
               type === "student" ? "bg-purple-500" : "bg-emerald-500"
@@ -105,6 +108,18 @@ const Profile = () => {
                 />
               </div>
             </div>
+            {type === "professor" && (
+              <>
+                <div className="mb-4 text-lg">
+                  <span className="font-bold">Department :</span>{" "}
+                  {userData.Department}
+                </div>
+                <div className="mb-4 text-lg">
+                  <span className="font-bold">Designation :</span>{" "}
+                  {userData.Designation}
+                </div>
+              </>
+            )}
 
             {type === "student" && (
               <>
@@ -127,7 +142,7 @@ const Profile = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {subjects.map((subject) => (
                 <div
-                  key={subject._id}
+                  key={subject.subjectCode + subject.section}
                   className="bg-gray-100 p-4 rounded shadow-md"
                 >
                   <h2 className="text-xl font-bold mb-2">
@@ -143,6 +158,14 @@ const Profile = () => {
                         <span className="font-bold">Course:</span>{" "}
                         {subject.course}
                       </p>
+                      <Link
+                        to={`/user/${userId}/FeedbackAnalysis_AI/${
+                          subject.subjectCode + "_" + subject.section
+                        }`}
+                        className="px-4 py-2.5 bg-emerald-500 text-white font-semibold shadow-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all block text-center"
+                      >
+                        View Processed Feedbacks
+                      </Link>
                     </div>
                   )}
                 </div>

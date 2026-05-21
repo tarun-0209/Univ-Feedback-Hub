@@ -1,7 +1,5 @@
 /* FeedbackViewPage.css */
 .feedback-view-page {
-  max-width: 85vw;
-  margin: 2rem auto;
   display: flex;
   gap: 2rem;
 }
@@ -10,7 +8,6 @@
 .responses-container {
   flex: 1;
   background: #f7f7f7;
-  padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -99,4 +96,44 @@
 
 .reply-container button:hover {
   background-color: #00823d;
+}
+/* Add to FeedbackViewPage.css */
+@media (max-width: 768px) {
+  .questions-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+  }
+  .question-card {
+    flex: 0 0 auto; /* Prevent shrinking */
+    width: 95%;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .feedback-view-page {
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0.5rem;
+  }
+  .chart-container {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .reply-container,
+  .report-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .reply-container button,
+  .report-container button {
+    width: 100%;
+  }
 }

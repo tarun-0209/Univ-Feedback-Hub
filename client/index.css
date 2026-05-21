@@ -1,6 +1,15 @@
+/* Import Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+/* Tailwind CSS imports */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global font settings */
+body {
+  font-family: "Roboto", sans-serif;
+}
 
 /* Hide scrollbar for Chrome, Safari, and Opera */
 ::-webkit-scrollbar {
@@ -10,4 +19,36 @@
 /* Hide scrollbar for Firefox */
 * {
   scrollbar-width: none;
+}
+
+.markdown-content h2 {
+  @apply text-xl font-semibold mt-6 mb-3 text-emerald-700 border-b pb-2;
+}
+
+.markdown-content h3 {
+  @apply text-lg font-medium mt-4 mb-2 text-gray-800;
+}
+
+.markdown-content ul {
+  @apply list-disc pl-6 space-y-2 mb-4;
+}
+
+.markdown-content li {
+  @apply text-gray-700 leading-relaxed;
+}
+
+.markdown-content a {
+  @apply text-blue-600 hover:text-blue-800 underline;
+}
+
+.markdown-content strong {
+  @apply font-medium text-gray-900;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-emerald-200 pl-4 text-gray-600 my-4;
+}
+
+.markdown-content code {
+  @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono;
 }

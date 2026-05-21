@@ -14,6 +14,22 @@ const feedbacksReceived = new mongoose.Schema({
       answers: [String], // Array of answers submitted by the student
     },
   ],
+  deadline: {
+    type: Date,
+    required: true,
+  },
+  department: {
+    type: String,
+    required: true,
+  },
+  isProcessed: {
+    type: Boolean,
+    required: true,
+  },
+  professorName: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Feedbacks Received", feedbacksReceived);

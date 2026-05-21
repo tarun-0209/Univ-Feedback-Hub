@@ -41,7 +41,7 @@ const Header = () => {
 
   return (
     <div>
-      <header className="flex justify-between items-center p-3 bg-pink-100 shadow-xl border-2 border-pink-200">
+      <header className="flex justify-between items-center px-3 py-2 bg-pink-100  border border-gray-300">
         <div className="flex gap-5 items-center">
           <img src={logo} className="w-48" alt="Logo" title="Logo" />
           <p className="md:font-semibold md:text-lg hidden md:contents ">
@@ -50,12 +50,12 @@ const Header = () => {
         </div>
         <div
           ref={dropdownRef}
-          className={`bg-white cursor-pointer relative flex items-center gap-3 border-2 border-gray-300 px-4 py-1 rounded-full ${
+          className={`bg-pink-200 cursor-pointer relative flex items-center gap-3 border border-gray-400 px-4 py-1 rounded-full ${
             showDropdown ? "active" : ""
           }`}
           onClick={handleClick}
         >
-          <img src={profileImage} className="w-12 rounded-full" alt="Profile" />
+          <img src={profileImage} className="w-10 rounded-full" alt="Profile" />
           <p>{nameOfUser}</p>
           {showDropdown && (
             <div className="absolute top-full right-0 bg-white shadow-md rounded-lg overflow-hidden w-full mt-1">

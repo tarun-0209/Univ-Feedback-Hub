@@ -29,7 +29,8 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
   const fetchFeedbackQuestions = async () => {
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/feedback/${feedbackFormName}`
+        `${BASE_URL}/api/v1/feedback/${feedbackFormName}`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
       if (!response.ok) {
         throw new Error("Failed to fetch feedback questions");
@@ -51,7 +52,8 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
   const fetchFeedbackResponses = async () => {
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/getfeedbackResponses/${feedbackFormName}`
+        `${BASE_URL}/api/v1/getfeedbackResponses/${feedbackFormName}`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
       if (!response.ok) {
         throw new Error("Failed to fetch feedback data");
@@ -151,6 +153,7 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(replyData),
       });
@@ -195,6 +198,7 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(contactAdminData),
     })
@@ -269,8 +273,8 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
   }
 
   return (
-    <div className="feedback-view-page">
-      <div className="questions-container h-[calc(100vh-15vh)] overflow-y-auto px-5 py-5  bg-cyan-50 border border-cyan-200">
+    <div className="feedback-view-page flex justify-center mx-6 my-3">
+      <div className="questions-container h-[calc(100vh-6rem)] overflow-y-auto px-5 py-5  bg-cyan-50 border border-cyan-200">
         <div className=" flex justify-between items-center">
           <h1 className="title">Feedback Questions</h1>
           <button
@@ -299,7 +303,7 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
         </div>
       </div>
       <div
-        className="responses-container h-[calc(100vh-15vh)] overflow-y-auto px-5 py-5  bg-cyan-50 border border-cyan-200"
+        className="responses-container h-[calc(100vh-6rem)] overflow-y-auto px-5 py-5  bg-cyan-50 border border-cyan-200"
         id="responses"
       >
         {activeQuestionDescription && (
@@ -312,7 +316,6 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
         )}
         {activeResponseType === "text" && textAnswers.length > 0 && (
           <div className="text-answers">
-            <h3 className="subtitle">Feedback Received - </h3>
             <ul className="answers-list">
               {textAnswers.map((answer, index) => (
                 <li key={index} className="answer-item border">
@@ -387,22 +390,17 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
           </div>
         )}
         {activeResponseType === "yesNo" && yesNoData.length > 0 && (
-          <div className="flex flex-col items-center justify-center">
-            <div className="yes-no-data w-3/4 ">
-              <h2 className="subtitle text-center">Feedback Received</h2>
-              <PieChart data={yesNoData} />
-            </div>
+          <div className="flex flex-col items-center mt-3">
+            <PieChart data={yesNoData} />
           </div>
         )}
         {activeResponseType === "rating" && ratingData.length > 0 && (
           <div className="rating-data">
-            <h2 className="subtitle">Feedback Received</h2>
             <BarChart data={ratingData} labels={["1", "2", "3", "4", "5"]} />
           </div>
         )}
         {activeResponseType === "multiple" && multipleChoiceData.length > 0 && (
           <div className="multiple-choice-data">
-            <h2 className="subtitle">Feedback Received</h2>
             <BarChart data={multipleChoiceData} labels={multipleChoiceLabels} />
           </div>
         )}

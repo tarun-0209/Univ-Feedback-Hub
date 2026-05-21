@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import logo from "./logo.png";
 import Login from "./login";
+import "./home.css";
 
 const HomePage = () => {
   const sliderSettings = {
@@ -30,29 +31,31 @@ const HomePage = () => {
 
   return (
     <div className="home-screen bg-cyan-50 min-h-screen">
-      <header className="header flex justify-between items-center px-2 py-3.5 bg-pink-100 shadow-md md:justify-start md:gap-4 md:px-16 border-2 border-pink-200">
-        <img src={logo} alt="LOGO-IMG" className="logo w-48"></img>
-        <p className="university-info text-md text-start font-semibold md:w-48">
+      <header className="header flex flex-col sm:flex-row justify-between items-center px-4 py-3 bg-pink-100 shadow-md md:justify-start md:gap-6 md:px-12 border-b-2 border-pink-200">
+        <img src={logo} alt="LOGO-IMG" className="logo w-40 sm:w-48 mb-2 sm:mb-0"></img>
+        <p className="university-info text-sm sm:text-md text-center sm:text-start font-semibold md:w-64">
           Graphic Era Hill University Dehradun, Uttarakhand
         </p>
       </header>
-      <main className="main-content md:flex md:justify-between md:p-4 md:mt-10 md:items-center lg:mt-14 lg:px-20">
-        <div className="login-section my-10 md:w-6/12">
-          <Login className=""></Login>
+      <main className="main-content flex flex-col md:flex-row justify-between p-4 md:p-8 md:mt-10 md:items-center lg:mt-14 lg:px-20">
+        <div className="login-section w-full md:w-5/12 mb-10 md:mb-0 flex justify-center">
+          <div className="w-full max-w-md">
+            <Login />
+          </div>
         </div>
-        <article className="content-text px-10 text-justify text-lg md:w-6/12">
+        <article className="content-text px-6 sm:px-10 text-justify text-md sm:text-lg md:w-6/12">
           <Slider {...sliderSettings}>
-            <div>
-              <h2 className=" font-semibold text-3xl my-1 text-indigo-400">
+            <div className="px-4">
+              <h2 className="font-semibold text-2xl sm:text-3xl my-2 text-indigo-400">
                 {studentContent.title}
               </h2>
-              <p>{studentContent.description}</p>
+              <p className="leading-relaxed">{studentContent.description}</p>
             </div>
-            <div>
-              <h2 className=" font-semibold text-3xl my-1  text-indigo-400">
+            <div className="px-4">
+              <h2 className="font-semibold text-2xl sm:text-3xl my-2 text-indigo-400">
                 {professorContent.title}
               </h2>
-              <p>{professorContent.description}</p>
+              <p className="leading-relaxed">{professorContent.description}</p>
             </div>
           </Slider>
         </article>

@@ -20,7 +20,8 @@ const ProfessorPage = () => {
     try {
       // Make a GET request to your backend API endpoint to fetch subjects
       const response = await fetch(
-        `${BASE_URL}/api/v1/getSubjects/${professorId}`
+        `${BASE_URL}/api/v1/getSubjects/${professorId}`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
       if (!response.ok) {
         throw new Error("Failed to fetch subjects");
@@ -34,26 +35,22 @@ const ProfessorPage = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="flex md:p-3 bg-cyan-50 p-1">
+      <div className="flex flex-1 md:p-3 bg-cyan-50 p-1">
         <SideBar />
-        <div className="w-5/6 h-[calc(100vh-15vh)] overflow-y-auto">
+        <div className="flex-1 flex flex-col  h-[calc(100vh-6rem)] overflow-y-auto">
           <SearchBar />
-          <div className="flex flex-wrap px-5 py-2 justify-center sm:justify-evenly">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                        gap-3 md:gap-4 p-2 md:p-4 flex-1 overflow-auto"
+          >
             {subjects.map((subject) => (
-              <div
+              <ProfessorCard
                 key={subject.id}
-                className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 p-2 flex justify-center"
-              >
-                <ProfessorCard
-                  subjectName={subject.subjectName}
-                  subjectCode={subject.subjectCode}
-                  semester={subject.semester}
-                  course={subject.course}
-                  section={subject.section}
-                />
-              </div>
+                {...subject}
+                feedbackFormName={`${subject.subjectCode}_${subject.section}`}
+              />
             ))}
           </div>
         </div>

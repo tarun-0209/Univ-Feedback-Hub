@@ -44,7 +44,9 @@ const addSubjects = async (req, res) => {
     res.status(500).json({ message: "Error uploading CSV data" });
   } finally {
     // Clean up the uploaded file (optional)
-    fs.unlinkSync(req.file.path);
+    if (req && req.file && req.file.path) {
+      fs.unlinkSync(req.file.path);
+    }
   }
 };
 

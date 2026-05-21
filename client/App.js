@@ -13,7 +13,8 @@ import ErrorPage from "./Components/Home-page/ErrorComponent";
 import StudentNotifications from "./Components/student-page/Notifications";
 import ProfessorNotification from "./Components/professor-page/ProfessorNotification";
 import ContactPage from "./Components/student-page/Contact";
-
+import SummaryOfFeedbacks from "./Components/professor-page/SummaryOfFeedbacks";
+import GuestPage from "./Components/guest-page/GuestPage";
 function useUserType() {
   const userDataString = localStorage.getItem("userData");
   const { type } = userDataString ? JSON.parse(userDataString) : { type: null };
@@ -30,12 +31,24 @@ function useRoutesForUser(userType) {
           <Route path="*" element={<ErrorPage />} />{" "}
         </Routes>
       );
+    case "guest":
+      return (
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/guest" element={<GuestPage />} />
+          <Route path="*" element={<ErrorPage />} />{" "}
+        </Routes>
+      );
     case "professor":
       return (
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/professor" element={<ProfessorPage />} />
           <Route path="/user/:_id" element={<Profile />} />
+          <Route
+            path="/user/:_id/FeedbackAnalysis_AI/:feedbackFormName"
+            element={<SummaryOfFeedbacks />}
+          />
           <Route
             path="/seeFeedback/:feedbackFormName"
             element={<SeeFeedback />}
@@ -69,7 +82,7 @@ function useRoutesForUser(userType) {
     default:
       return (
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/*" element={<HomePage />} />
           <Route path="*" element={<ErrorPage />} />{" "}
         </Routes>
       );

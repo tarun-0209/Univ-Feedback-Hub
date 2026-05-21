@@ -18,7 +18,8 @@ const GiveFeedback = () => {
   const fetchFeedbackForm = async () => {
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/feedback/${feedbackFormName}`
+        `${BASE_URL}/api/v1/feedback/${feedbackFormName}`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
 
       if (!response.ok) {

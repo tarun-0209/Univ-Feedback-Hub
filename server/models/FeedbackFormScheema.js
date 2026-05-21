@@ -25,6 +25,10 @@ const feedbackFormSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  professorUsername: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("FeedbackForm", feedbackFormSchema);
