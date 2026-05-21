@@ -1,10 +1,12 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI("AIzaSyCZeoW9wVm5lsHx41DaNeh8Iz4Dv3P2B-g");
 const marked = require("marked");
-const DOMPurify = require("isomorphic-dompurify");
 
 const getActionableInsights = async (req, res) => {
   try {
+    const DOMPurifyModule = await import("isomorphic-dompurify");
+    const DOMPurify = DOMPurifyModule.default || DOMPurifyModule;
+    
     const { department, weaknesses } = req.body;
 
     if (!department || !weaknesses?.length) {
