@@ -3,7 +3,6 @@ import Header from "./Header";
 import FeedbackFormBody from "./FeedbackFormBody";
 import { useParams } from "react-router-dom";
 import SideBar from "./SideBar";
-require("dotenv").config();
 const BASE_URL = process.env.BASE_URL;
 
 const GiveFeedback = () => {

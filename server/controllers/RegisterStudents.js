@@ -42,23 +42,19 @@ const RegisterUsers = async (req, res) => {
     const formattedData = await convertCSVToObjects(csvData);
 
     // Insert data into MongoDB using the UserModel
-    await UserModel.insertMany(formattedData);
+    const insertedUsers = await UserModel.insertMany(formattedData);
 
-    // Find all users
-    const users = await UserModel.find({});
-
-    // Loop through each user and assign subjects
-    for (const user of users) {
+    // Loop through each NEWLY inserted user and assign subjects
+    for (const user of insertedUsers) {
       // Find subjects matching user's semester and course
       const subjects = await SubjectsModel.find({
         semester: user.semester,
         course: user.course,
       });
 
-      // Update user document with subject IDs (or relevant information)
+      // Update user document with subject IDs
       user.subjects = subjects.map((subject) => subject._id);
 
-      // Optional: Handle no matching subjects
       if (subjects.length === 0) {
         console.log(
           `No subjects found for user: ${user.username}, course: ${user.course}, semester: ${user.semester}`

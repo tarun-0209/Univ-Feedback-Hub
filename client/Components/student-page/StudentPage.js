@@ -3,7 +3,6 @@ import SideBar from "./SideBar";
 import SubjectCard from "./SubjectCard";
 import SearchBar from "./SearchBar";
 import { useState, useEffect } from "react";
-require("dotenv").config();
 const BASE_URL = process.env.BASE_URL;
 
 const StudentPage = () => {

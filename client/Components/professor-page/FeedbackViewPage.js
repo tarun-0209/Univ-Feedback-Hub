@@ -3,7 +3,6 @@ import PieChart from "./Piechart";
 import BarChart from "./Barchart";
 import "./FeedbackViewPage.css";
 import { useNavigate } from "react-router-dom";
-require("dotenv").config();
 const BASE_URL = process.env.BASE_URL;
 
 const FeedbackViewPage = ({ feedbackFormName }) => {

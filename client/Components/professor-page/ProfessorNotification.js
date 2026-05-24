@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../student-page/Header";
 import SideBar from "../student-page/SideBar";
-require("dotenv").config();
 const BASE_URL = process.env.BASE_URL;
 
 const ProfessorNotification = () => {

@@ -13,8 +13,7 @@ const Profile = () => {
     (storedProfile && storedProfile.startsWith("data:image/")) ? storedProfile : null
   );
 
-  require("dotenv").config();
-  const BASE_URL = process.env.BASE_URL;
+    const BASE_URL = process.env.BASE_URL;
 
   useEffect(() => {
     fetchSubjects(userId);

@@ -3,7 +3,6 @@ import SideBar from "../student-page/SideBar";
 import SearchBar from "../student-page/SearchBar";
 import ProfessorCard from "./ProfessorCard";
 import { useEffect, useState } from "react";
-require("dotenv").config();
 const BASE_URL = process.env.BASE_URL;
 
 const ProfessorPage = () => {

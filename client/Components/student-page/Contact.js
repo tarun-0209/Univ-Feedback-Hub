@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "./Header"; // Update path as needed
 import SideBar from "./SideBar"; // Update path as needed
 
-require("dotenv").config();
 const BASE_URL = process.env.BASE_URL;
 
 const ContactPage = () => {

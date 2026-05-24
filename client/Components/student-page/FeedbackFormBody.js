@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-require("dotenv").config();
 const BASE_URL = process.env.BASE_URL;
 
 const FeedbackFormBody = ({ feedbackFormData }) => {

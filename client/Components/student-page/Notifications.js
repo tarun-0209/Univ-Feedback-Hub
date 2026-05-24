@@ -5,8 +5,7 @@ const StudentNotifications = () => {
   const [notifications, setNotifications] = useState([]);
   const userDataString = localStorage.getItem("userData");
   const { _id } = JSON.parse(userDataString);
-  require("dotenv").config();
-  const BASE_URL = process.env.BASE_URL;
+    const BASE_URL = process.env.BASE_URL;
 
   const fetchNotifications = async () => {
     try {

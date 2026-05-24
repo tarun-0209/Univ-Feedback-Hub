@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-require("dotenv").config();
 const BASE_URL = process.env.BASE_URL;
 const AdminContactRequests = () => {
   // State to store admin contact requests
