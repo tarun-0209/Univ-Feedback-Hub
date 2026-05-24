@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const logo = new URL("../Home-page/logo.png", import.meta.url).href;
-const profile = new URL("./profile.jpg", import.meta.url).href;
+import logo from "../Home-page/logo.png";
+import profile from "./profile.jpg";
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -10,7 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const storedProfile = localStorage.getItem("profileImage");
-  const profileImage = (storedProfile && storedProfile !== "undefined" && storedProfile !== "null" && storedProfile !== "[object Object]") ? storedProfile : profile;
+  const profileImage = (storedProfile && storedProfile.startsWith("data:image/")) ? storedProfile : profile;
   const userDataString = localStorage.getItem("userData");
   const userData = userDataString ? JSON.parse(userDataString) : null;
   const nameOfUser = userData ? userData.name : "no-name";

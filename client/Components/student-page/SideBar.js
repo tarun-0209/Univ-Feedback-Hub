@@ -17,7 +17,7 @@ const SideBar = () => {
   const name = userData?.name;
   const userType = userData?.type;
   const storedProfile = localStorage.getItem("profileImage");
-  const profileImage = (storedProfile && storedProfile !== "undefined" && storedProfile !== "null" && storedProfile !== "[object Object]") ? storedProfile : profile;
+  const profileImage = (storedProfile && storedProfile.startsWith("data:image/")) ? storedProfile : profile;
 
   return (
     <>

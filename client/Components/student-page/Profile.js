@@ -10,7 +10,7 @@ const Profile = () => {
   const [subjects, setSubjects] = useState([]);
   const storedProfile = localStorage.getItem("profileImage");
   const [profileImage, setProfileImage] = useState(
-    (storedProfile && storedProfile !== "undefined" && storedProfile !== "null" && storedProfile !== "[object Object]") ? storedProfile : null
+    (storedProfile && storedProfile.startsWith("data:image/")) ? storedProfile : null
   );
 
   require("dotenv").config();
