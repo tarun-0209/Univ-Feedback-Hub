@@ -31,7 +31,20 @@ const CreateFeedbackForm = () => {
   };
 
   const handleInputChange = (e) => {
-    setNewQuestion({ ...newQuestion, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    let newOptions = newQuestion.options;
+
+    if (name === "type") {
+      if (value === "yesNo") {
+        newOptions = ["Yes", "No"];
+      } else if (value === "rating") {
+        newOptions = ["1", "2", "3", "4", "5"];
+      } else {
+        newOptions = [];
+      }
+    }
+
+    setNewQuestion({ ...newQuestion, [name]: value, options: newOptions });
   };
 
   const handleOptionChange = (index, value) => {

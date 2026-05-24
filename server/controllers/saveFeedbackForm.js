@@ -49,7 +49,7 @@ const saveFeedbackForm = async (req, res) => {
     const feedback = new FeedbacksReceived({
       name: savedFeedbackForm.name, // Use the feedback form's name
       professorName: name, // Add professor's name
-      department: Department, // Add professor's department
+      department: Department || "General", // Add professor's department with fallback
       deadline: req.body.deadline,
       isProcessed: false,
     });
