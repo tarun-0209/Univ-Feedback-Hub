@@ -18,18 +18,21 @@ const getActionableInsights = async (req, res) => {
     const model = "gemini-3-flash-preview";
 
     const prompt = `
-As a senior pedagogical consultant for ${department}, analyze these teaching weaknesses:
+You are an expert pedagogical consultant specializing in higher education. Your goal is to provide highly actionable, constructive, and empathetic advice to a university professor in the ${department} department based on the following areas for improvement identified by their students:
+
 ${weaknesses.map((w, i) => `${i + 1}. ${w}`).join("\n")}
 
-Generate for each weakness:
-1. 2 actionable solutions with implementation steps
-2. Department-specific resources
-4. Time investment estimates
-5. Anything else whatever you feel is necessary
+For each area of improvement, provide a structured action plan containing:
+1. **The Core Issue:** A brief, empathetic interpretation of why students might be struggling with this.
+2. **Quick Win:** One simple, immediate change the professor can implement in their very next lecture.
+3. **Long-Term Strategy:** A concrete pedagogical technique to systematically address the issue over the semester.
+4. **Suggested Tool/Method:** A specific teaching framework, software tool, or active learning technique relevant to the ${department} department.
 
-Keep it short, engaging, positive and natural.
-The output will directly we displayed on the frontend to the Professor so adjust the language/format.
-Format in markdown with clear headings and bullet points.`;
+**Tone & Formatting Guidelines:**
+- Tone: Encouraging, highly professional, and collegiate. Never condescending.
+- Format: Use clean Markdown. Use \`###\` for each weakness title, and bullet points for the action plan.
+- Rule: Output the analysis directly. Do NOT include introductory or concluding pleasantries.
+`;
 
     const result = await ai.models.generateContent({
       model: model,
