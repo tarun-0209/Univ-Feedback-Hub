@@ -37,8 +37,8 @@ const processFeedbacksCore = async () => {
 
         // Process each student response
         feedback.responses.forEach((response) => {
-          // Process fixed questions (first 4 answers)
-          const fixedAnswers = response.answers.slice(0, 4);
+          // Process fixed questions (numeric ratings are at indices 5, 6, 7, 8)
+          const fixedAnswers = response.answers.slice(5, 9);
 
           fixedAnswers.forEach((answer, index) => {
             const numericValue = parseInt(answer);
@@ -68,9 +68,9 @@ const processFeedbacksCore = async () => {
             }
           });
 
-          // Process text responses (answers beyond index 4)
+          // Process text responses (text answers are at indices 0 to 4)
           const textAnswers = response.answers
-            .slice(4)
+            .slice(0, 5)
             .filter((answer) => answer.length > 15);
 
           if (textAnswers.length > 0) {
