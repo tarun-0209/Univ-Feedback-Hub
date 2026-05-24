@@ -1,5 +1,5 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const { GoogleGenAI } = require("@google/genai");
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const marked = require("marked");
 
 const getActionableInsights = async (req, res) => {
@@ -15,7 +15,7 @@ const getActionableInsights = async (req, res) => {
       });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = "gemini-3-flash-preview";
 
     const prompt = `
 As a senior pedagogical consultant for ${department}, analyze these teaching weaknesses:
@@ -31,8 +31,16 @@ Keep it short, engaging, positive and natural.
 The output will directly we displayed on the frontend to the Professor so adjust the language/format.
 Format in markdown with clear headings and bullet points.`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const result = await ai.models.generateContent({
+      model: model,
+      contents: prompt,
+      config: {
+        thinkingConfig: {
+          thinkingLevel: "HIGH",
+        },
+      },
+    });
+    const text = result.text;
 
     // Sanitize and convert markdown safely
     const html = DOMPurify.sanitize(marked.parse(text || ""));

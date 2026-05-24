@@ -1,9 +1,11 @@
 const feedbacksReceived = require("../models/FeedbacksReceived");
 const ProcessedFeedback = require("../models/processedFeedbacks");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+const model = "gemini-3-flash-preview";
 
 const processFeedbacksCore = async () => {
   console.log("Running feedback processing task...");
@@ -140,9 +142,16 @@ Return JSON strictly in this format:
 }
 `;
 
-          const aiResponse = await model.generateContent(prompt);
-          const cleanedResponse = aiResponse.response
-            .text()
+          const aiResponse = await ai.models.generateContent({
+            model: model,
+            contents: prompt,
+            config: {
+              thinkingConfig: {
+                thinkingLevel: "HIGH",
+              },
+            },
+          });
+          const cleanedResponse = aiResponse.text
             .replace(/```json\s*|```/g, "")
             .trim();
 
