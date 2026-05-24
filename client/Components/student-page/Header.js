@@ -10,7 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const storedProfile = localStorage.getItem("profileImage");
-  const profileImage = (storedProfile && storedProfile !== "undefined" && storedProfile !== "null") ? storedProfile : profile;
+  const profileImage = (storedProfile && storedProfile !== "undefined" && storedProfile !== "null" && storedProfile !== "[object Object]") ? storedProfile : profile;
   const userDataString = localStorage.getItem("userData");
   const userData = userDataString ? JSON.parse(userDataString) : null;
   const nameOfUser = userData ? userData.name : "no-name";

@@ -8,8 +8,9 @@ const Profile = () => {
   const type = userData.type;
   const userId = userData._id;
   const [subjects, setSubjects] = useState([]);
+  const storedProfile = localStorage.getItem("profileImage");
   const [profileImage, setProfileImage] = useState(
-    localStorage.getItem("profileImage") || null
+    (storedProfile && storedProfile !== "undefined" && storedProfile !== "null" && storedProfile !== "[object Object]") ? storedProfile : null
   );
 
   require("dotenv").config();
