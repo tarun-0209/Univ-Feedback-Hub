@@ -17,14 +17,14 @@ const tabs = [
     component: <RegisterAdmins />,
   },
   {
-    id: "register",
-    label: "Register Students ",
-    component: <Register />,
-  },
-  {
     id: "addSubjects",
     label: "Add Subjects ",
     component: <AddSubjects />,
+  },
+  {
+    id: "register",
+    label: "Register Students ",
+    component: <Register />,
   },
   {
     id: "registerProfessors",
