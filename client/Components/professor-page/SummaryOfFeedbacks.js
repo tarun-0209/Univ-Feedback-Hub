@@ -152,6 +152,30 @@ const SummaryOfFeedbacks = () => {
             labels: {
               color: "#374151",
             },
+            onClick: (e, legendItem, legend) => {
+              const index = legendItem.datasetIndex;
+              const ci = legend.chart;
+
+              // Check if the clicked dataset is the ONLY one currently visible
+              const isOnlyVisible = ci.data.datasets.every((ds, i) => 
+                (i === index && ci.isDatasetVisible(i)) || 
+                (i !== index && !ci.isDatasetVisible(i))
+              );
+
+              if (isOnlyVisible) {
+                // If it's already isolated, clicking it again shows all lines
+                ci.data.datasets.forEach((ds, i) => ci.show(i));
+              } else {
+                // Otherwise, isolate the clicked line by hiding all others
+                ci.data.datasets.forEach((ds, i) => {
+                  if (i === index) {
+                    ci.show(i);
+                  } else {
+                    ci.hide(i);
+                  }
+                });
+              }
+            }
           },
           tooltip: {
             backgroundColor: "#ffffff",
