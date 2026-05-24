@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "test": "jest",
-    "start": "parcel index.html --no-cache",
-    "build": "parcel build index.html --no-cache"
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "author": "TP",
   "license": "ISC",
