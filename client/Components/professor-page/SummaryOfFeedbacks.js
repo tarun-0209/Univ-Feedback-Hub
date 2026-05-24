@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Chart } from "chart.js/auto";
+import Chart from "chart.js/auto";
 import Header from "../student-page/Header";
 import SideBar from "../student-page/SideBar";
 import { Link } from "react-router-dom";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 const SummaryOfFeedbacks = () => {
   const { userId, feedbackFormName } = useParams();
