@@ -17,9 +17,9 @@ const RegisterProfessors = async (req, res) => {
     });
   }
 
-  // Function to convert CSV data to objects
   async function convertCSVToObjects(csvData) {
-    return await Promise.all(csvData.map(async (data) => ({
+    const validData = csvData.filter((data) => data.username && data.password);
+    return await Promise.all(validData.map(async (data) => ({
       username: data.username,
       password: await bcrypt.hash(data.password, 10),
       name: data.name,

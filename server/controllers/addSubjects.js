@@ -15,14 +15,15 @@ const addSubjects = async (req, res) => {
     });
   }
 
-  // Function to convert CSV data to objects
   function convertCSVToObjects(csvData) {
-    return csvData.map((data) => ({
-      subjectCode: data.subjectCode,
-      subjectName: data.subjectName,
-      semester: data.semester,
-      course: data.course,
-    }));
+    return csvData
+      .filter((data) => data.subjectCode && data.subjectName)
+      .map((data) => ({
+        subjectCode: data.subjectCode,
+        subjectName: data.subjectName,
+        semester: data.semester,
+        course: data.course,
+      }));
   }
   try {
     if (!req.file) {

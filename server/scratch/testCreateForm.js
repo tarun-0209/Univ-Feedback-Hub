@@ -1,16 +1,16 @@
-require("dotenv").config();
-const mongoose = require("mongoose");
-const Professors = require("../models/professorsScheema");
+const csv = require("csv-parser");
+const fs = require("fs");
+const path = require("path");
 
-const checkProfs = async () => {
-  try {
-    await mongoose.connect(process.env.DB_LINK);
-    const profs = await Professors.find({});
-    console.log(JSON.stringify(profs, null, 2));
-    process.exit(0);
-  } catch(e) {
-    console.error(e);
-    process.exit(1);
-  }
+const testCSV = () => {
+  const filePath = path.join("..", "csv data", "_assignSubjects.csv");
+  fs.createReadStream(filePath)
+    .pipe(csv())
+    .on("data", (row) => {
+      console.log(row);
+    })
+    .on("end", () => {
+      console.log("Done");
+    });
 };
-checkProfs();
+testCSV();
