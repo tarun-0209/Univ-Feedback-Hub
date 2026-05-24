@@ -16,7 +16,8 @@ const SideBar = () => {
   const userData = userDataString ? JSON.parse(userDataString) : null;
   const name = userData?.name;
   const userType = userData?.type;
-  const profileImage = localStorage.getItem("profileImage") || profile;
+  const storedProfile = localStorage.getItem("profileImage");
+  const profileImage = (storedProfile && storedProfile !== "undefined" && storedProfile !== "null") ? storedProfile : profile;
 
   return (
     <>

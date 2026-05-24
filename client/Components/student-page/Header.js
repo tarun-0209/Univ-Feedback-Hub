@@ -9,7 +9,8 @@ const Header = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  const profileImage = localStorage.getItem("profileImage") || profile;
+  const storedProfile = localStorage.getItem("profileImage");
+  const profileImage = (storedProfile && storedProfile !== "undefined" && storedProfile !== "null") ? storedProfile : profile;
   const userDataString = localStorage.getItem("userData");
   const userData = userDataString ? JSON.parse(userDataString) : null;
   const nameOfUser = userData ? userData.name : "no-name";

@@ -21,6 +21,11 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
   const [activeReplyIndex, setActiveReplyIndex] = useState(null);
   const [contactAdminIndex, setContactAdminIndex] = useState(null);
   const [reason, setReason] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [repliedIndices, setRepliedIndices] = useState(new Set());
+  const [reportedIndices, setReportedIndices] = useState(new Set());
+  const [isSubmittingReply, setIsSubmittingReply] = useState(false);
+  const [isSubmittingReport, setIsSubmittingReport] = useState(false);
   const userDataString = localStorage.getItem("userData");
   const { _id } = userDataString ? JSON.parse(userDataString) : "";
   const navigate = useNavigate();
@@ -66,8 +71,12 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
   };
 
   useEffect(() => {
-    fetchFeedbackResponses();
-    fetchFeedbackQuestions();
+    const fetchData = async () => {
+      setIsLoading(true);
+      await Promise.all([fetchFeedbackResponses(), fetchFeedbackQuestions()]);
+      setIsLoading(false);
+    };
+    fetchData();
   }, [feedbackFormName]);
 
   const handleShowResponses = (index) => {
@@ -148,6 +157,7 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
       reply: reply,
     };
 
+    setIsSubmittingReply(true);
     try {
       const response = await fetch(`${BASE_URL}/api/v1/submitReply`, {
         method: "POST",
@@ -163,11 +173,14 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
       }
 
       console.log("Reply submitted successfully");
-
+      
+      setRepliedIndices((prev) => new Set(prev).add(index));
       setActiveReplyIndex(null);
       setReply("");
     } catch (error) {
       console.error("Error submitting reply:", error);
+    } finally {
+      setIsSubmittingReply(false);
     }
   };
 
@@ -192,8 +205,8 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
       answer: answer,
       reason,
     };
-    //console.log(contactAdminData);
 
+    setIsSubmittingReport(true);
     await fetch(`${BASE_URL}/api/v1/contactAdmin`, {
       method: "POST",
       headers: {
@@ -206,11 +219,15 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
         if (!response.ok) {
           throw new Error("Failed to contact admin");
         }
+        setReportedIndices((prev) => new Set(prev).add(index));
         setContactAdminIndex(null);
         setReason("");
       })
       .catch((error) => {
         console.error("Error contacting admin:", error);
+      })
+      .finally(() => {
+        setIsSubmittingReport(false);
       });
   };
 
@@ -230,6 +247,17 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
       reportRef.current.focus();
     }
   }, [replyInput, reportInput]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-6rem)]">
+        <svg className="animate-spin h-10 w-10 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+    );
+  }
 
   if (questions.length === 0) {
     return (
@@ -328,9 +356,14 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
                       toggleReplyInput(index);
                       setReplyInput(!replyInput);
                     }}
-                    className=" border px-5 py-1 bg-black text-white font-semibold rounded-md m-1"
+                    disabled={repliedIndices.has(index)}
+                    className={`border px-5 py-1 font-semibold rounded-md m-1 transition-colors ${
+                      repliedIndices.has(index)
+                        ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                        : "bg-black text-white hover:bg-gray-800"
+                    }`}
                   >
-                    {activeReplyIndex === index ? "Cancel" : "Reply"}
+                    {repliedIndices.has(index) ? "Replied" : (activeReplyIndex === index ? "Cancel" : "Reply")}
                   </button>
                   {activeReplyIndex === index && (
                     <div className="reply-container">
@@ -341,6 +374,7 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
                         onChange={(e) => handleReplyChange(e)}
                       />
                       <button
+                        disabled={isSubmittingReply}
                         onClick={() =>
                           handleReplySubmit(
                             index,
@@ -348,8 +382,9 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
                             answer
                           )
                         }
+                        className={isSubmittingReply ? "opacity-50 cursor-not-allowed" : ""}
                       >
-                        Send
+                        {isSubmittingReply ? "Sending..." : "Send"}
                       </button>
                     </div>
                   )}
@@ -359,9 +394,14 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
                       toggleContactAdminInput(index);
                       setReportInput(!reportInput);
                     }}
-                    className="border px-4 py-1 bg-red-500 text-white font-semibold rounded-md m-1"
+                    disabled={reportedIndices.has(index)}
+                    className={`border px-4 py-1 font-semibold rounded-md m-1 transition-colors ${
+                      reportedIndices.has(index)
+                        ? "bg-red-300 text-red-100 cursor-not-allowed"
+                        : "bg-red-500 text-white hover:bg-red-600"
+                    }`}
                   >
-                    {contactAdminIndex === index ? "Cancel" : "Report"}
+                    {reportedIndices.has(index) ? "Reported" : (contactAdminIndex === index ? "Cancel" : "Report")}
                   </button>
                   {contactAdminIndex === index && (
                     <div className="reply-container">
@@ -372,6 +412,7 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
                         onChange={(e) => handleContactAdminChange(e)}
                       />
                       <button
+                        disabled={isSubmittingReport}
                         onClick={() =>
                           handleContactAdminSubmit(
                             index,
@@ -379,8 +420,9 @@ const FeedbackViewPage = ({ feedbackFormName }) => {
                             answer
                           )
                         }
+                        className={isSubmittingReport ? "opacity-50 cursor-not-allowed" : ""}
                       >
-                        Send
+                        {isSubmittingReport ? "Sending..." : "Send"}
                       </button>
                     </div>
                   )}
