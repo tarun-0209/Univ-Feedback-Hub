@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import zoro from "./404.png";
+
+const zoro = new URL("./404.png", import.meta.url).href;
 
 const ErrorPage = () => {
   const userDataString = localStorage.getItem("userData");
