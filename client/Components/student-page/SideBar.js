@@ -8,7 +8,7 @@ import {
   faCog,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
-import profile from "./profile.jpg";
+const profile = new URL("./profile.jpg", import.meta.url).href;
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);

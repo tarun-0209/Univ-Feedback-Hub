@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import logo from "../Home-page/logo.png";
-import profile from "./profile.jpg";
+const logo = new URL("../Home-page/logo.png", import.meta.url).href;
+const profile = new URL("./profile.jpg", import.meta.url).href;
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
