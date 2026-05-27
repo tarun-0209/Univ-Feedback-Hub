@@ -57,6 +57,9 @@ Router.post("/addSubjects", requireAuth, requireRole(["admin"]), upload.single("
 Router.post("/registerProfessors", requireAuth, requireRole(["admin"]), upload.single("file"), RegisterProfessors);
 Router.post("/assignSubjects", requireAuth, requireRole(["admin"]), upload.single("file"), assignSubjects);
 Router.get("/processFeedbacks", requireAuth, requireRole(["admin"]), processFeedbacksAI);
+Router.post("/createFeedbackForm", requireAuth, requireRole(["admin"]), saveFeedbackForm);
+Router.get("/professorQueries", requireAuth, requireRole(["admin"]), showProfessorQuery);
+Router.post("/professorQueries/:requestId/:status", requireAuth, requireRole(["admin"]), handleStatusRequest);
 
 // Student & Professor Routes
 Router.get("/getSubjects/:studentId", requireAuth, requireRole(["student", "professor"]), getSubjects);
@@ -68,11 +71,8 @@ Router.post("/submitFeedback", requireAuth, requireRole(["student"]), submitFeed
 Router.get("/checkSubmissionStatus", requireAuth, requireRole(["student"]), checkSubmissionStatus);
 
 // Professor Only Routes
-Router.post("/createFeedbackForm", requireAuth, requireRole(["professor"]), saveFeedbackForm);
 Router.get("/getfeedbackResponses/:feedbackFormName", requireAuth, requireRole(["professor"]), getFeedbackData);
-Router.get("/professorQueries", requireAuth, requireRole(["professor"]), showProfessorQuery);
 Router.get("/professorQueries/:_id", requireAuth, requireRole(["professor"]), showProfNotifications);
-Router.post("/professorQueries/:requestId/:status", requireAuth, requireRole(["professor"]), handleStatusRequest);
 Router.get("/getProcessedFeedbacks/:professorName/:feedbackFormName", requireAuth, requireRole(["professor"]), getProcessedFeedbacks);
 Router.get("/department-averages/:department", requireAuth, requireRole(["professor"]), getDepartmentAverages);
 Router.get("/peer-rankings/:department", requireAuth, requireRole(["professor"]), peerComparision);
