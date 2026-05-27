@@ -69,6 +69,8 @@ Router.get("/feedback/:feedbackFormName", requireAuth, requireRole(["student", "
 Router.get("/getProfessors/:studentId", requireAuth, requireRole(["student"]), getProfessors);
 Router.post("/submitFeedback", requireAuth, requireRole(["student"]), submitFeedback);
 Router.get("/checkSubmissionStatus", requireAuth, requireRole(["student"]), checkSubmissionStatus);
+Router.get("/getReply/:_id", requireAuth, requireRole(["student"]), getReplyData);
+Router.post("/contactUs", requireAuth, requireRole(["student"]), createContact);
 
 // Professor Only Routes
 Router.get("/getfeedbackResponses/:feedbackFormName", requireAuth, requireRole(["professor"]), getFeedbackData);
@@ -77,15 +79,11 @@ Router.get("/getProcessedFeedbacks/:professorName/:feedbackFormName", requireAut
 Router.get("/department-averages/:department", requireAuth, requireRole(["professor"]), getDepartmentAverages);
 Router.get("/peer-rankings/:department", requireAuth, requireRole(["professor"]), peerComparision);
 Router.post("/generate-insights", requireAuth, requireRole(["professor"]), getActionableInsights);
-
-// Admin & Professor Routes
-Router.post("/contactAdmin", requireAuth, requireRole(["professor"]), contactAdmin); // Only Professor contacts Admin
+Router.post("/contactAdmin", requireAuth, requireRole(["professor"]), contactAdmin); 
+Router.post("/submitReply", requireAuth, requireRole(["professor"]), saveReplyData);
+Router.get("/getStudentDetails/:studentId", requireAuth, requireRole(["professor"]), getStudentDetails);
 
 // Shared / Other Routes
 Router.post("/login", UserLogin);
-Router.post("/submitReply", requireAuth, saveReplyData);
-Router.get("/getReply/:_id", requireAuth, getReplyData);
-Router.get("/getStudentDetails/:studentId", requireAuth, getStudentDetails);
-Router.post("/contactUs", requireAuth, createContact);
 
 module.exports = Router;
