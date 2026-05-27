@@ -5,7 +5,11 @@ const requireRole = (allowedRoles) => {
       return res.status(403).json({ message: "Access denied. User role not identified." });
     }
 
-    if (!allowedRoles.includes(req.user.type)) {
+    const userType = req.user.type.toLowerCase().trim();
+    const normalizedAllowedRoles = allowedRoles.map(r => r.toLowerCase().trim());
+
+    if (!normalizedAllowedRoles.includes(userType)) {
+      console.log(`RBAC Blocked: User type '${req.user.type}' not in allowed roles [${allowedRoles.join(", ")}]`);
       return res.status(403).json({ 
         message: `Access denied. Requires one of roles: ${allowedRoles.join(", ")}` 
       });

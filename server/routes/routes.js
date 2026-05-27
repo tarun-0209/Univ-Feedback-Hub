@@ -58,8 +58,10 @@ Router.post("/registerProfessors", requireAuth, requireRole(["admin"]), upload.s
 Router.post("/assignSubjects", requireAuth, requireRole(["admin"]), upload.single("file"), assignSubjects);
 Router.get("/processFeedbacks", requireAuth, requireRole(["admin"]), processFeedbacksAI);
 
+// Student & Professor Routes
+Router.get("/getSubjects/:studentId", requireAuth, requireRole(["student", "professor"]), getSubjects);
+
 // Student Only Routes
-Router.get("/getSubjects/:studentId", requireAuth, requireRole(["student"]), getSubjects);
 Router.get("/getProfessors/:studentId", requireAuth, requireRole(["student"]), getProfessors);
 Router.get("/feedback/:feedbackFormName", requireAuth, requireRole(["student"]), getFeedbackFormByName);
 Router.post("/submitFeedback", requireAuth, requireRole(["student"]), submitFeedback);
