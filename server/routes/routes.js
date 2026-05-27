@@ -60,10 +60,10 @@ Router.get("/processFeedbacks", requireAuth, requireRole(["admin"]), processFeed
 
 // Student & Professor Routes
 Router.get("/getSubjects/:studentId", requireAuth, requireRole(["student", "professor"]), getSubjects);
+Router.get("/feedback/:feedbackFormName", requireAuth, requireRole(["student", "professor"]), getFeedbackFormByName);
 
 // Student Only Routes
 Router.get("/getProfessors/:studentId", requireAuth, requireRole(["student"]), getProfessors);
-Router.get("/feedback/:feedbackFormName", requireAuth, requireRole(["student"]), getFeedbackFormByName);
 Router.post("/submitFeedback", requireAuth, requireRole(["student"]), submitFeedback);
 Router.get("/checkSubmissionStatus", requireAuth, requireRole(["student"]), checkSubmissionStatus);
 
