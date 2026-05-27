@@ -49,10 +49,9 @@ const {
 ////////////////////////////////////////////////////
 const requireAuth = require("../middleware/requireAuth");
 const requireRole = require("../middleware/requireRole");
-const requireSetupOrAdmin = require("../middleware/requireSetupOrAdmin");
 
 // Admin Only Routes
-Router.post("/registerAdmins", requireSetupOrAdmin, upload.single("file"), RegisterAdmins);
+Router.post("/registerAdmins", requireAuth, requireRole(["admin"]), upload.single("file"), RegisterAdmins);
 Router.post("/registerUser", requireAuth, requireRole(["admin"]), upload.single("file"), RegisterUsers);
 Router.post("/addSubjects", requireAuth, requireRole(["admin"]), upload.single("file"), addSubjects);
 Router.post("/registerProfessors", requireAuth, requireRole(["admin"]), upload.single("file"), RegisterProfessors);
